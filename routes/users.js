@@ -1,5 +1,8 @@
 const express = require('express')
 const router = express.Router()
+const { validateToken } = require('../middlewares/auth')
+
+router.use(validateToken);
 
 router.get("/users", (req, res) => {
   res.send("Todos os usuários");
