@@ -1,5 +1,3 @@
-Compreendido! Vamos ajustar o README para destacar a importância de configurar o arquivo `.env` antes de iniciar o servidor:
-
 # Back do Projeto +1 Job
 
 Este projeto representa a parte de back-end desenvolvida durante o curso de Ciência da Computação na disciplina de Desenvolvimento Web.
