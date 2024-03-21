@@ -3,7 +3,7 @@ const { cpf } = require('cpf-cnpj-validator')
 
 const expectedKeys = [
   'name', 'email', 'password', 'cpf', 'phone', 'whatsapp', 'instagram',
-  'areaOfActivity', 'profession', 'description', 'local'
+  'areaOfActivityId', 'profession', 'description', 'localId'
 ];
 
 const createUserValidator = [
@@ -30,10 +30,10 @@ const createUserValidator = [
   body('phone').notEmpty().matches(/^\d{11}$/).isString(),
   body('whatsapp').optional(),
   body('instagram').optional(),
-  body('areaOfActivity').notEmpty().isDecimal(),
+  body('areaOfActivityId').notEmpty().isNumeric(),
   body('profession').notEmpty().isString(),
   body('description').notEmpty().isString(),
-  body('local').notEmpty().isDecimal(),
+  body('localId').notEmpty().isNumeric(),
 ];
 
 module.exports = createUserValidator

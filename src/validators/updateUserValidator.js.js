@@ -1,9 +1,8 @@
 const { body } = require('express-validator');
-const { cpf } = require('cpf-cnpj-validator')
 
 const expectedKeys = [
   'name', 'phone', 'whatsapp', 'instagram',
-  'areaOfActivity', 'profession', 'description', 'local'
+  'areaOfActivityId', 'profession', 'description', 'localId'
 ];
 
 const updateUserValidator = [
@@ -26,10 +25,10 @@ const updateUserValidator = [
   body('phone').optional().matches(/^\d{11}$/).isString(),
   body('whatsapp').optional(),
   body('instagram').optional(),
-  body('areaOfActivity').optional().isDecimal(),
+  body('areaOfActivityId').optional().isNumeric(),
   body('profession').optional().isString(),
   body('description').optional().isString(),
-  body('local').optional().isDecimal(),
+  body('localId').optional().isNumeric(),
 ];
 
 module.exports = updateUserValidator
