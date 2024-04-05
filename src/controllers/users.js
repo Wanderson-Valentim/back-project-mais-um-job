@@ -12,9 +12,6 @@ const userController = {
      
       res.json(user);
     } catch (error) {
-      console.log(
-        error
-      );
       res.status(500).json({ message: "Houve um erro no servidor!" });
     }
   },
@@ -39,6 +36,8 @@ const userController = {
         const userData = req.body;
         const user = await userService.createUser(userData);
 
+        if(!user) return res.status(500).json({ message: "Houve um erro no servidor! Não foi possível concluir cadastro!" });
+
         res.status(201).json({ id: user.id , message: "Usuário criado com sucesso!" });
       } else{
         res.status(400).json({ errors: result.array() });
@@ -53,7 +52,7 @@ const userController = {
     try {
       const result = validationResult(req);
 
-      if(!result.isEmpty()) res.status(400).json({ errors: result.array() });
+      if(!result.isEmpty()) return res.status(400).json({ errors: result.array() });
       
       const { id } = req.params;
       const userData = req.body;

@@ -1,17 +1,23 @@
-const userRepository = require('../repositories/users');
 const bcrypt = require('bcrypt');
+const userRepository = require('../repositories/users');
+const WorkImages = require('../models/WorkImages');
+const sequelize = require('../db');
+const imageRepository = require('../repositories/images');
 
 const userService = {
   findUser: async function (id) {
     const user = await userRepository.findOne(
-      { id: id }, 
+      { id: id },
       { exclude: ['password', 'cpf', 'createdAt', 'updatedAt'] },
+      [{ model: WorkImages, as: 'workImages', attributes: ['id', 'src']}]
     );
     return user;
   },
 
   findUsers: async function () {
-    const users = await userRepository.findAll({ exclude: ['password', 'cpf', 'createdAt', 'updatedAt'] });
+    const users = await userRepository.findAll({ 
+      exclude: ['password', 'cpf', 'createdAt', 'updatedAt', 'description'],
+    });
     return users;
   },
 
@@ -32,12 +38,42 @@ const userService = {
       { id: id }, 
       { exclude: ['password', 'cpf', 'createdAt', 'updatedAt'] },
     );
+
     if(!user) return null;
     
     const updatedUser = await userRepository.update(id, data);
-    console.log(userRepository);
 
     return updatedUser;
+  },
+
+  updateAvatar: async function (id, src) {
+    const transaction = await sequelize.transaction();
+
+    try {
+      const user = await userRepository.findOne(
+        { id: id }, 
+        { attributes: ['id', 'avatar'] },
+      );
+
+      if(!user) return null;
+
+      const oldAvatar = user.avatar;
+
+      const result = await userRepository.update(id, { avatar: src }, transaction);
+      
+      if(oldAvatar){
+        const excluded = await imageRepository.destroy([oldAvatar]);
+
+        if (!excluded) throw Error();
+      }
+      
+      await transaction.commit();
+
+      return result;
+    } catch (error) {
+      await transaction.rollback();
+      return null;
+    }
   },
 };
 

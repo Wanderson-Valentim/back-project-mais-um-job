@@ -10,6 +10,7 @@ const WorkImages = sequelize.define('work_images', {
   },
   src: {
     type: DataTypes.STRING,
+    unique: true,
     allowNull: false,
   },
 }, {

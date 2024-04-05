@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
 const sequelize = require("../db");
+const { DataTypes } = require('sequelize');
 const AreaOfActivity = require('./AreaOfActivity');
 const Local = require('./Local');
 const WorkImages = require('./WorkImages');
@@ -48,7 +48,7 @@ const User = sequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  profileImageId: {
+  avatar: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -58,6 +58,6 @@ const User = sequelize.define('users', {
 
 User.belongsTo(Local, { foreignKey: 'localId' });
 User.belongsTo(AreaOfActivity, { foreignKey: 'areaOfActivityId' });
-User.hasMany(WorkImages);
+User.hasMany(WorkImages, { as: 'workImages', foreignKey: 'userId' });
 
 module.exports = User
