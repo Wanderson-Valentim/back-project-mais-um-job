@@ -5,14 +5,12 @@ const createUserValidator = require('../validators/createUserValidator');
 const updateUserValidator = require('../validators/updateUserValidator.js');
 const userController = require('../controllers/users.js');
 
-router.use(validateToken);
-
 router.get("/users", userController.findUsers);
 
 router.get("/users/:id", userController.findUser);
 
 router.post("/users", createUserValidator, userController.createUser);
 
-router.put("/users/:id", updateUserValidator, userController.updateUser);
+router.put("/users/:id", validateToken, updateUserValidator, userController.updateUser);
 
 module.exports = router

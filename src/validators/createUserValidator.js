@@ -28,8 +28,8 @@ const createUserValidator = [
     return isValid
   }),
   body('phone').notEmpty().matches(/^\d{11}$/).isString(),
-  body('whatsapp').optional(),
-  body('instagram').optional(),
+  body('whatsapp').optional({ nullable: true }).isString(),
+  body('instagram').optional({ nullable: true }).isString(),
   body('areaOfActivityId').notEmpty().isNumeric(),
   body('profession').notEmpty().isString(),
   body('description').notEmpty().isString(),
