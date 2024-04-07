@@ -56,10 +56,14 @@ const userController = {
       const result = validationResult(req);
 
       if(!result.isEmpty()) return res.status(400).json({ errors: result.array() });
-      
-      const { id } = req.params;
+
+      const userId = req.userId;
+
+      if(!userId) throw new Error();
+
       const userData = req.body;
-      const user = await userService.updateUser(id, userData);
+      
+      const user = await userService.updateUser(userId, userData);
 
       if(!user) return res.status(404).json({ message: "Usuário não encontrado!" });
 

@@ -11,6 +11,6 @@ router.get("/users/:id", userController.findUser);
 
 router.post("/users", createUserValidator, userController.createUser);
 
-router.put("/users/:id", validateToken, updateUserValidator, userController.updateUser);
+router.put("/users", validateToken, updateUserValidator, userController.updateUser);
 
 module.exports = router
