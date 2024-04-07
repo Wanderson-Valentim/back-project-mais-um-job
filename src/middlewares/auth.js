@@ -6,11 +6,11 @@ const validateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(' ');
 
   if (!token || token[0] !== 'Bearer' || !token[1]) {
-    return res.status(401).send();
+    return res.status(401).json({ auth: false });
   }
 
   jwt.verify(token[1], process.env.SECRET_KEY, (err, decoded) => {
-    if (err) { return res.status(401).send() };
+    if (err) { return res.status(401).json({ auth: false })};
     req.userId = decoded.id;
     next();
   });

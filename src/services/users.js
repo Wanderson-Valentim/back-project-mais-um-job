@@ -3,21 +3,42 @@ const userRepository = require('../repositories/users');
 const WorkImages = require('../models/WorkImages');
 const sequelize = require('../db');
 const imageRepository = require('../repositories/images');
+const Local = require('../models/Local');
+const AreaOfActivity = require('../models/AreaOfActivity');
 
 const userService = {
   findUser: async function (id) {
     const user = await userRepository.findOne(
       { id: id },
       { exclude: ['password', 'cpf', 'createdAt', 'updatedAt'] },
-      [{ model: WorkImages, as: 'workImages', attributes: ['id', 'src']}]
+      [
+        {model: WorkImages, as: 'workImages', attributes: ['id', 'src']}, 
+        {model: Local, attributes: ['id', 'name']}, 
+        {model: AreaOfActivity, attributes: ['id', 'name']}
+      ]
     );
     return user;
   },
 
-  findUsers: async function () {
-    const users = await userRepository.findAll({ 
-      exclude: ['password', 'cpf', 'createdAt', 'updatedAt', 'description'],
-    });
+  findUsers: async function ({ localId, activitieId }) {
+    const whereClause = {};
+
+    if (localId) {
+        whereClause.localId = localId;
+    }
+
+    if (activitieId) {
+        whereClause.areaOfActivityId = activitieId;
+    }
+
+    const users = await userRepository.findAll(
+      where = Object.keys(whereClause).length > 0 ? whereClause : null,
+      {  
+        exclude: ['password', 'cpf', 'createdAt', 'updatedAt']
+      },
+      [{model: Local, attributes: ['id', 'name']}, {model: AreaOfActivity, attributes: ['id', 'name']}]
+    );
+
     return users;
   },
 
