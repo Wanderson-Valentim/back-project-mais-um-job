@@ -6,8 +6,8 @@ const userRepository = {
     return user;
   },
 
-  findAll: async (attributes = null, transaction = null) => {
-    const user = await User.findAll({ attributes, transaction });
+  findAll: async (where = null, attributes = null, include = null, transaction = null) => {
+    const user = await User.findAll({ where, attributes, include, transaction });
     return user;
   },
 

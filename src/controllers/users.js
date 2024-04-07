@@ -18,12 +18,15 @@ const userController = {
 
   findUsers: async (req, res) => {
     try {
-      const users = await userService.findUsers();
+      const queryParams = req.query;
+
+      const users = await userService.findUsers(queryParams);
   
-      if(!users) return res.status(404).json({ message: "Usuário não encontrado!" });
+      if(!users || users.length === 0) return res.status(404).json({ message: "Usuários não encontrado!" });
      
       res.json(users);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "Houve um erro no servidor!" });
     }
   },
