@@ -6,8 +6,9 @@ Este projeto representa a parte de back-end desenvolvida durante o curso de Ciê
 
 Antes de prosseguir, verifique se você possui as seguintes ferramentas instaladas em sua máquina:
 
-- [Node.js](https://nodejs.org/) (v20.x ou superior)
-- [npm](https://www.npmjs.com/) (v10.x ou superior)
+1. [Node.js](https://nodejs.org/) (v20.x ou superior)
+2. [npm](https://www.npmjs.com/) (v10.x ou superior)
+3. MySQL Server (v8.0.x)
 
 ## Instalação
 
@@ -30,13 +31,25 @@ npm install
 
 Antes de iniciar o servidor, é crucial configurar corretamente o arquivo `.env`. Um exemplo de como preencher este arquivo pode ser encontrado em `.env.example`.
 
-Certifique-se de seguir as instruções no arquivo `.env.example` e fornecer os valores corretos para todas as variáveis ​​necessárias.
+Certifique-se de seguir as instruções no arquivo `.env.example` e fornecer os valores corretos para todas as variáveis necessárias, incluindo as configurações do MySQL.
 
 **Atenção: Certifique-se de configurar o arquivo `.env` antes de executar o servidor.**
 
+## Executando as Migrations do Sequelize
+
+Antes de iniciar o servidor, é necessário executar as migrações do Sequelize para configurar o banco de dados. Certifique-se de ter configurado corretamente o arquivo `.env` com os detalhes do banco de dados MySQL.
+
+Para executar as migrações, utilize o seguinte comando:
+
+```bash
+npx sequelize-cli db:migrate
+```
+
+Isso aplicará todas as migrações pendentes e atualizará o banco de dados de acordo.
+
 ## Executando o Servidor
 
-Após configurar o arquivo `.env`, você pode iniciar o servidor Express executando o seguinte comando:
+Após configurar o arquivo `.env` e aplicar as migrações do Sequelize, você pode iniciar o servidor Express executando o seguinte comando:
 
 ```bash
 npm run dev
